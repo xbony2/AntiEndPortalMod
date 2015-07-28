@@ -26,7 +26,12 @@ minecraft {
 	runDir = "eclipse"
     replace "@VERSION@", project.version
 }
-
+jar {
+	manifest {
+		attributes 'FMLCorePlugin': 'xbony2.aepm.AEPMPlugin'
+		attributes 'FMLCorePluginContainsMod': 'true'
+	}
+}
 
 processResources {
     inputs.property "version", project.version
