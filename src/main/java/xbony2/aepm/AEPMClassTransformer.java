@@ -1,14 +1,13 @@
 package xbony2.aepm;
 
-import org.objectweb.asm.Opcodes;
-
-import org.objectweb.asm.tree.VarInsnNode;
-import org.objectweb.asm.tree.InsnList;
 import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 public class AEPMClassTransformer implements IClassTransformer {
@@ -47,7 +46,7 @@ public class AEPMClassTransformer implements IClassTransformer {
 					
 					InsnList newInstructions = new InsnList();
 					
-					newInstructions.add(new VarInsnNode(Opcodes.RETURN, 0));
+					newInstructions.add(new InsnNode(Opcodes.RETURN));
 					
 					method.instructions.insert(newInstructions);
 					break;
