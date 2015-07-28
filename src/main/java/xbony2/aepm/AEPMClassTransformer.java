@@ -1,18 +1,11 @@
 package xbony2.aepm;
 
-import org.objectweb.asm.Opcodes;
-
-import org.objectweb.asm.tree.VarInsnNode;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.tree.ClassNode;
-import cpw.mods.fml.common.FMLLog;
-
-import java.util.Arrays;
-
 import net.minecraft.launchwrapper.IClassTransformer;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodNode;
 
 public class AEPMClassTransformer implements IClassTransformer {
 	public static final String TRANSFORMED_CLASS = "net.minecraft.entity.boss.EntityDragon";
@@ -28,7 +21,6 @@ public class AEPMClassTransformer implements IClassTransformer {
 	}
 	
 	public byte[] transform(byte[] classBeingTransformed, boolean isObfuscated){
-		FMLLog.info("Transforming!");
 		try {
 			ClassNode node = new ClassNode();
 			ClassReader reader = new ClassReader(classBeingTransformed);
@@ -40,6 +32,7 @@ public class AEPMClassTransformer implements IClassTransformer {
 			
 			for(MethodNode method : node.methods){
 				if(method.name.equals(CREATE_ENDER_PORTAL) && method.desc.equals(CREATE_ENDER_PORTAL_DESC)){
+					System.out.println("Transforming!"); //DO NOT USE FMLLog! That's not loaded yet, mkay?
 					AbstractInsnNode targetNode = null;
 					for(AbstractInsnNode instruction : method.instructions.toArray()){
 						/*if(instruction.getOpcode() == Opcodes.ALOAD){
