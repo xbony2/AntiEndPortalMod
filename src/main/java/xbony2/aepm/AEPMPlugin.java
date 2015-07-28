@@ -13,7 +13,7 @@ public class AEPMPlugin implements IFMLLoadingPlugin {
 
 	@Override
 	public String[] getASMTransformerClass(){
-		return new String[]{"xbony2.aepm.AEPMClassTransformer"};
+		return new String[]{AEPMClassTransformer.class.getName()};
 	}
 
 	@Override

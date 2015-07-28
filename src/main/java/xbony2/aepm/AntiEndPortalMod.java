@@ -23,9 +23,8 @@ public class AntiEndPortalMod {
 	public class EggDropEvent {
 		@SubscribeEvent
 		public void onDeath(LivingDeathEvent event){
-			if(event.entity instanceof EntityDragon){
-				event.entity.entityDropItem(new ItemStack(Blocks.dragon_egg), 0.00F); //TODO: not sure what this int does...
-			}
+			if(event.entity instanceof EntityDragon)
+				event.entity.entityDropItem(new ItemStack(Blocks.dragon_egg), 0.00F);
 		}
 	}
 }
