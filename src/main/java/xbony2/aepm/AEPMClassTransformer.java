@@ -11,8 +11,6 @@ public class AEPMClassTransformer implements IClassTransformer {
 	public static final String TRANSFORMED_CLASS = "net.minecraft.entity.boss.EntityDragon";
 	public static final String TRANSFORMED_METHOD_DEOBFUSCATED  = "createEnderPortal";
 	public static final String TRANSFORMED_METHOD_OBFUSCATED = "b";
-	public static final String TRANSFORMED_DESC_OBFUSCATED = "";
-	public static final String TRANSFORMED_DESC_DEOBFUSCATED = "";
 	
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] basicClass){
@@ -20,6 +18,13 @@ public class AEPMClassTransformer implements IClassTransformer {
 		return TRANSFORMED_CLASS != transformedName ? transform(basicClass, isObfuscated) : basicClass;
 	}
 	
+	/**
+	 * Small note: FMLLog.log() (and similar methods) should not be used in this method, since it isn't loaded. No shame in using the old built-in solution of System.out.println() ;)
+	 * 
+	 * @param classBeingTransformed
+	 * @param isObfuscated
+	 * @return
+	 */
 	public byte[] transform(byte[] classBeingTransformed, boolean isObfuscated){
 		try {
 			ClassNode node = new ClassNode();
@@ -28,19 +33,11 @@ public class AEPMClassTransformer implements IClassTransformer {
 			
 			//Trasformeration here
 			final String CREATE_ENDER_PORTAL = isObfuscated ? TRANSFORMED_METHOD_OBFUSCATED : TRANSFORMED_METHOD_DEOBFUSCATED;
-			final String CREATE_ENDER_PORTAL_DESC = "(II)V"; //Pretty sure it's the same, I dunno these things.
 			
 			for(MethodNode method : node.methods){
-				if(method.name.equals(CREATE_ENDER_PORTAL) && method.desc.equals(CREATE_ENDER_PORTAL_DESC)){
-					System.out.println("Transforming!"); //DO NOT USE FMLLog! That's not loaded yet, mkay?
-					AbstractInsnNode targetNode = null;
+				if(method.name.equals(CREATE_ENDER_PORTAL) && method.desc.equals("(II)V")){
+					System.out.println("Transforming!");
 					for(AbstractInsnNode instruction : method.instructions.toArray()){
-						/*if(instruction.getOpcode() == Opcodes.ALOAD){
-							if(((VarInsnNode) instruction).var == 5 && instruction.getNext().getOpcode() == Opcodes.GETSTATIC){
-								targetNode = instruction;
-								break;
-							}
-						}*/
 						method.instructions.remove(instruction);// Removes ALL OF THE INSTRUCTIONS
 					}
 					
