@@ -18,7 +18,7 @@ public class AEPMPlugin implements IFMLLoadingPlugin {
 
 	@Override
 	public String getModContainerClass(){
-		return "xbony2.aepm.AEPMContainer";
+		return null;
 	}
 
 	@Override
