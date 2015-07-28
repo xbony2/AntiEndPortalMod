@@ -1,5 +1,9 @@
 package xbony2.aepm;
 
+import org.objectweb.asm.Opcodes;
+
+import org.objectweb.asm.tree.VarInsnNode;
+import org.objectweb.asm.tree.InsnList;
 import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -15,7 +19,7 @@ public class AEPMClassTransformer implements IClassTransformer {
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] basicClass){
 		boolean isObfuscated = !name.equals(transformedName);
-		return TRANSFORMED_CLASS != transformedName ? transform(basicClass, isObfuscated) : basicClass;
+		return name.equals(TRANSFORMED_CLASS) ? transform(basicClass, isObfuscated) : basicClass;	
 	}
 	
 	/**
@@ -35,17 +39,18 @@ public class AEPMClassTransformer implements IClassTransformer {
 			final String CREATE_ENDER_PORTAL = isObfuscated ? TRANSFORMED_METHOD_OBFUSCATED : TRANSFORMED_METHOD_DEOBFUSCATED;
 			
 			for(MethodNode method : node.methods){
+				System.out.println(method.name);
 				if(method.name.equals(CREATE_ENDER_PORTAL) && method.desc.equals("(II)V")){
 					System.out.println("Transforming!");
 					for(AbstractInsnNode instruction : method.instructions.toArray()){
 						method.instructions.remove(instruction);// Removes ALL OF THE INSTRUCTIONS
 					}
+					InsnList newInstructions = new InsnList();
 					
-					/*if(targetNode != null){
-						
-					}else{
-						FMLLog.info("Something broke, but who cares? Everyone? Sorry then.");
-					}*/
+					newInstructions.add(new VarInsnNode(Opcodes.RETURN, 0));
+					
+					method.instructions.insert(newInstructions);
+					break;
 				}
 			}
 			
