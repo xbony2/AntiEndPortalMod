@@ -39,10 +39,11 @@ public class AEPMClassTransformer implements IClassTransformer {
 			final String CREATE_ENDER_PORTAL = isObfuscated ? TRANSFORMED_METHOD_OBFUSCATED : TRANSFORMED_METHOD_DEOBFUSCATED;
 			
 			for(MethodNode method : node.methods){
-				System.out.println(method.name);
 				if(method.name.equals(CREATE_ENDER_PORTAL) && method.desc.equals("(II)V")){
-					System.out.println("Transforming!");
+					System.out.println("Transforming EntityDragon class.");
 					for(AbstractInsnNode instruction : method.instructions.toArray()){
+						System.out.println("Ins Type: " + instruction.getType());
+						System.out.println("Ins Code: " + instruction.getOpcode());
 						method.instructions.remove(instruction);// Removes ALL OF THE INSTRUCTIONS
 					}
 					InsnList newInstructions = new InsnList();
