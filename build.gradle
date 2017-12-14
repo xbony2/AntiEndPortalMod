@@ -29,7 +29,7 @@ minecraft {
 jar {
 	manifest {
 		attributes 'FMLCorePlugin': 'xbony2.aepm.AEPMPlugin'
-		attributes 'FMLCorePluginContainsMod': 'true'
+		attributes 'FMLCorePluginContainsFMLMod': 'true'
 	}
 }
 
